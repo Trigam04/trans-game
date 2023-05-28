@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://pmmoul3s6npy"]
+
+[ext_resource type="PackedScene" uid="uid://b4e14ffnshjd0" path="res://scenes/entities/player.tscn" id="1_b34ff"]
+[ext_resource type="Texture2D" uid="uid://pexmx1ac5buu" path="res://assets/textures/grid.png" id="1_oa00w"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lgkua"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_eabga"]
+sky_material = SubResource("ProceduralSkyMaterial_lgkua")
+
+[sub_resource type="Environment" id="Environment_bidla"]
+background_mode = 2
+sky = SubResource("Sky_eabga")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_htgyl"]
+albedo_texture = ExtResource("1_oa00w")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_s2v8g"]
+size = Vector2(35, 35)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_fqd7p"]
+data = PackedVector3Array(17.5, 0, 17.5, -17.5, 0, 17.5, 17.5, 0, -17.5, -17.5, 0, 17.5, -17.5, 0, -17.5, 17.5, 0, -17.5)
+
+[node name="MoveTest" type="Node3D"]
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_bidla")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 38.4953, 0)
+
+[node name="Objects" type="Node" parent="."]
+
+[node name="Floor" type="MeshInstance3D" parent="Objects"]
+material_override = SubResource("StandardMaterial3D_htgyl")
+mesh = SubResource("PlaneMesh_s2v8g")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Objects/Floor"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Objects/Floor/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_fqd7p")
+
+[node name="Player" parent="." instance=ExtResource("1_b34ff")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
