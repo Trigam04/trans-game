@@ -15,6 +15,15 @@ run/main_scene="res://scenes/levels/move_test.tscn"
 config/features=PackedStringArray("4.0", "Forward Plus")
 config/icon="res://icon.svg"
 
+[editor]
+
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
+
+[editor_plugins]
+
+enabled=PackedStringArray()
+
 [input]
 
 move_forward={
