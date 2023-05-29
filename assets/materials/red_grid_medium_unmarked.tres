@@ -1,0 +1,6 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cqnsfpap1pp3a"]
+
+[ext_resource type="Texture2D" uid="uid://d7sqw5vvy6fb" path="res://assets/textures/Trigam's Prototype Pack/Red/Grid/Medium Unmarked.png" id="1_h63m8"]
+
+[resource]
+albedo_texture = ExtResource("1_h63m8")

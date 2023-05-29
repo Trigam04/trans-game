@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqiattesn3h3x"]
+
+[ext_resource type="PackedScene" uid="uid://co14wb54f5acc" path="res://assets/models/objects/Slope_0.5x.glb" id="1_i756w"]
+[ext_resource type="Material" uid="uid://vq40n7b07ucl" path="res://assets/materials/red_grid_large_unmarked.tres" id="2_81m1x"]
+
+[node name="Slope_05x" instance=ExtResource("1_i756w")]
+
+[node name="Slope_05x2" parent="." index="0"]
+visible = false
+
+[node name="Slope_05x" parent="." index="1"]
+material_override = ExtResource("2_81m1x")
