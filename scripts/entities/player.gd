@@ -1,8 +1,8 @@
 extends CharacterBody3D
 
-const speed = 5.0
-const jumpVel = 4.5
-const sensitivity = 0.5
+@export var speed : float = 5.0 : set = set_speed
+@export var jumpVel : float = 4.5 : set = set_jump
+@export var sensitivity : float = 0.5 : set = set_sens
 
 # Get the gravity from the project settings
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -15,7 +15,7 @@ func _physics_process(delta):
 		velocity.y -= gravity * delta
 
 	# Handle jump
-	if Input.is_action_just_pressed("ui_accept") and is_on_floor():
+	if Input.is_action_pressed("move_jump") and is_on_floor():
 		velocity.y = jumpVel
 
 	# Get input direction and handle movement/deceleration.
@@ -47,6 +47,13 @@ func _unhandled_input(event):
 			cam.rotation.x = clamp(cam.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 # Setters/Getters
+func set_speed(newSpeed):
+	speed = newSpeed
+func set_jump(newJump):
+	jumpVel = newJump
+# sens undertale??
+func set_sens(newSens):
+	sensitivity = newSens
 func set_head(newHead):
 	headPivot = newHead
 func set_camera(newCam):
