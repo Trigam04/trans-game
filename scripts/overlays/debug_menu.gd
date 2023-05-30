@@ -6,13 +6,15 @@ extends Control
 var playerCoords : Vector3 = Vector3.ZERO
 var playerState = null
 var playerSpeed = null
+var cameraFOV = null
 
 var vals = {
 	"vers": { "label": "Version", "val": Config.version, "node": null },
 	"fps": { "label": "FPS", "val": "", "node": null },
 	"playerCoords": { "label": "Coords", "val": "", "node": null },
 	"playerState": { "label": "State", "val": "", "node": null },
-	"playerSpeed": { "label": "Speed", "val": "", "node": null }
+	"playerSpeed": { "label": "Speed", "val": "", "node": null },
+	"cameraFOV": { "label": "FOV", "val": "", "node": null }
 }
 
 func _ready():
@@ -37,6 +39,7 @@ func _process(_delta):
 	)
 	updateItem("playerState", playerState)
 	updateItem("playerSpeed", playerSpeed)
+	updateItem("cameraFOV", cameraFOV)
 	
 	# Update labels
 	for item in vals.values():
@@ -56,3 +59,5 @@ func set_player_state(newState):
 	playerState = newState
 func set_player_speed(newSpeed):
 	playerSpeed = newSpeed
+func set_cam_fov(newFOV):
+	cameraFOV = newFOV

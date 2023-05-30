@@ -1,3 +1,3 @@
 extends Node
 
-const version = "move_test_0.0.3"
+const version = "move_test_0.0.4"
