@@ -1,9 +1,10 @@
 extends CharacterBody3D
 
 # Enums
-enum States { WALKING, SPRINTING, CROUCHING, CRAWLING, AIR, AIR_SPRINTING }
-var state = States.WALKING
-var prevState = States.WALKING
+enum MovementStates { WALKING, SPRINTING, CROUCHING, CRAWLING }
+enum PositionStates { GROUND, AIR }
+var moveState = MovementStates.WALKING
+var posState = PositionStates.GROUND
 
 # Movement
 @export_group("Movement Properties")
@@ -37,10 +38,9 @@ func _physics_process(delta):
 	# Start calculations
 	calculateState()
 	handleState()
-	if (state != prevState): onStateChange(prevState, state)
 	
 	# Add gravity
-	if state == States.AIR or state == States.AIR_SPRINTING:
+	if posState == PositionStates.AIR:
 		velocity.y -= gravity * delta
 
 	# Handle jump
@@ -49,7 +49,7 @@ func _physics_process(delta):
 
 	# Get input direction and handle movement/deceleration.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var direction = (headPivot.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction = (self.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * currentSpeed
 		velocity.z = direction.z * currentSpeed
@@ -59,7 +59,6 @@ func _physics_process(delta):
 
 	# Finish up
 	move_and_slide()
-	prevState = state
 	
 	# Pass values to debug menu
 	if (debugMenu): passDebug()
@@ -85,72 +84,68 @@ func _unhandled_input(event):
 	# Rotate head with mouse (bone cracking noises)
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
-			headPivot.rotate_y(-event.relative.x * sensitivity * 0.01)
+			self.rotate_y(-event.relative.x * sensitivity * 0.01)
 			cam.rotate_x(-event.relative.y * sensitivity * 0.01)
 			cam.rotation.x = clamp(cam.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func calculateState():
-	if not is_on_floor() and Input.is_action_pressed("move_sprint"):
-		state = States.AIR_SPRINTING
-	elif not is_on_floor():
-		state = States.AIR
-	elif Input.is_action_pressed("move_crawl"):
-		state = States.CRAWLING
-	elif Input.is_action_pressed("move_crouch"):
-		state = States.CROUCHING
-	elif Input.is_action_pressed("move_sprint"):
-		state = States.SPRINTING
+	# Pos State
+	if not is_on_floor():
+		posState = PositionStates.AIR
 	else:
-		state = States.WALKING
+		posState = PositionStates.GROUND
+	# Move State
+	if Input.is_action_pressed("move_crawl"):
+		moveState = MovementStates.CRAWLING
+	elif Input.is_action_pressed("move_crouch"):
+		moveState = MovementStates.CROUCHING
+	elif Input.is_action_pressed("move_sprint"):
+		moveState = MovementStates.SPRINTING
+	else:
+		moveState = MovementStates.WALKING
 
 func handleState():
 	# SPEED / FOV
-	match state:
-		States.SPRINTING, States.AIR_SPRINTING:
+	match moveState:
+		MovementStates.SPRINTING:
 			currentSpeed = sprintSpeed
 			Util.tweenVal(cam, "fov", sprintFOV, 0.25)
-		States.CROUCHING:
+			Util.tweenVal(headPivot, "position", Vector3(0, 0.53, 0), 0.25)
+		MovementStates.CROUCHING:
 			currentSpeed = crouchSpeed
 			Util.tweenVal(cam, "fov", crouchFOV, 0.25)
-		States.CRAWLING:
+			Util.tweenVal(headPivot, "position", Vector3(0, -0.25, 0), 0.25)
+		MovementStates.CRAWLING:
 			currentSpeed = crawlSpeed
 			Util.tweenVal(cam, "fov", crawlFOV, 0.25)
-		States.WALKING, States.AIR:
+			Util.tweenVal(headPivot, "position", Vector3(0, -0.8, 0), 0.25)
+		MovementStates.WALKING:
 			currentSpeed = speed
 			Util.tweenVal(cam, "fov", fov, 0.25)
+			Util.tweenVal(headPivot, "position", Vector3(0, 0.53, 0), 0.25)
+	changeCollider(moveState)
 
-func onStateChange(before, now):
-	# Oh boy animation hell
-	if now == States.CRAWLING and before == States.CROUCHING:
-		$AnimationPlayer.play("crouch_to_crawl")
-		standingCollider.disabled = true
-		crouchingCollider.disabled = true
-		crawlingCollider.disabled = false
-	elif now == States.CROUCHING and before == States.CRAWLING:
-		$AnimationPlayer.play_backwards("crouch_to_crawl")
-		standingCollider.disabled = true
-		crouchingCollider.disabled = false
-		crawlingCollider.disabled = true
-	elif now != States.CRAWLING and before == States.CRAWLING:
-		$AnimationPlayer.play("reset")
-		standingCollider.disabled = false
-		crouchingCollider.disabled = true
-		crawlingCollider.disabled = true
-	elif now == States.CROUCHING and before != States.CRAWLING:
-		$AnimationPlayer.play("stand_to_crouch")
-		standingCollider.disabled = true
-		crouchingCollider.disabled = false
-		crawlingCollider.disabled = true
-	elif now != States.CROUCHING and before == States.CROUCHING:
-		$AnimationPlayer.play_backwards("stand_to_crouch")
-		standingCollider.disabled = false
-		crouchingCollider.disabled = true
-		crawlingCollider.disabled = true
+func changeCollider(state):
+	match state:
+		MovementStates.CROUCHING:
+			standingCollider.disabled = true
+			crouchingCollider.disabled = false
+			crawlingCollider.disabled = true
+		MovementStates.CRAWLING:
+			standingCollider.disabled = true
+			crouchingCollider.disabled = true
+			crawlingCollider.disabled = false
+		_:
+			standingCollider.disabled = false
+			crouchingCollider.disabled = true
+			crawlingCollider.disabled = true
+
 
 
 func passDebug():
 	debugMenu.set_player_coords(self.get_position())
-	debugMenu.set_player_state(Util.get_enum_val_as_string(States, state))
+	debugMenu.set_player_move_state(Util.get_enum_val_as_string(MovementStates, moveState))
+	debugMenu.set_player_pos_state(Util.get_enum_val_as_string(PositionStates, posState))
 	debugMenu.set_player_speed(Util.round_to_dec(self.velocity.length(), 2))
 	debugMenu.set_cam_fov(Util.round_to_dec(cam.fov, 2))
 

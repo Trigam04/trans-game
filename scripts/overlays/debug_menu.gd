@@ -5,6 +5,7 @@ extends Control
 # Internal Vars
 var playerCoords : Vector3 = Vector3.ZERO
 var playerState = null
+var playerPosState = null
 var playerSpeed = null
 var cameraFOV = null
 
@@ -12,7 +13,8 @@ var vals = {
 	"vers": { "label": "Version", "val": Config.version, "node": null },
 	"fps": { "label": "FPS", "val": "", "node": null },
 	"playerCoords": { "label": "Coords", "val": "", "node": null },
-	"playerState": { "label": "State", "val": "", "node": null },
+	"playerState": { "label": "Movement State", "val": "", "node": null },
+	"playerPosState": { "label": "Position State", "val": "", "node": null },
 	"playerSpeed": { "label": "Speed", "val": "", "node": null },
 	"cameraFOV": { "label": "FOV", "val": "", "node": null }
 }
@@ -38,6 +40,7 @@ func _process(_delta):
 		",  Z: " + str(Util.round_to_dec(playerCoords.z, 2))
 	)
 	updateItem("playerState", playerState)
+	updateItem("playerPosState", playerPosState)
 	updateItem("playerSpeed", playerSpeed)
 	updateItem("cameraFOV", cameraFOV)
 	
@@ -55,8 +58,10 @@ func set_container(newContainer):
 	labelBox = newContainer
 func set_player_coords(coords):
 	playerCoords = coords
-func set_player_state(newState):
+func set_player_move_state(newState):
 	playerState = newState
+func set_player_pos_state(newState):
+	playerPosState = newState
 func set_player_speed(newSpeed):
 	playerSpeed = newSpeed
 func set_cam_fov(newFOV):
