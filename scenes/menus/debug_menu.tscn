@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://cadid4ryi4wnx"]
+[gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://scripts/menus/debug_menu.gd" id="2_ev0o2"]
+[ext_resource type="Script" path="res://scripts/overlays/debug_menu.gd" id="2_ev0o2"]
 
 [node name="Debug" type="Control" node_paths=PackedStringArray("labelBox")]
 layout_mode = 3
