@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cch6vf5mqi31j"]
+[gd_scene load_steps=12 format=3 uid="uid://cch6vf5mqi31j"]
 
 [ext_resource type="Theme" uid="uid://c2ic0tvyep4ni" path="res://assets/themes/MainMenuTheme.tres" id="1_pg8aj"]
 [ext_resource type="Script" path="res://scripts/ui/mainmenu.gd" id="2_qsejl"]
+[ext_resource type="PackedScene" uid="uid://ccrn2uabm3pmy" path="res://scenes/menus/options_menu.tscn" id="3_70vdy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5sjeu"]
 
@@ -136,6 +137,7 @@ grow_vertical = 2
 size_flags_vertical = 3
 theme = ExtResource("1_pg8aj")
 script = ExtResource("2_qsejl")
+options_scene = ExtResource("3_70vdy")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
