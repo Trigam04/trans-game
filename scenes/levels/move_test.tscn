@@ -88,6 +88,7 @@ shape = SubResource("ConcavePolygonShape3D_bpai4")
 
 [node name="Player" parent="Level" node_paths=PackedStringArray("debugMenu") instance=ExtResource("1_b34ff")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+jumpVel = 5.0
 debugMenu = NodePath("../../Overlays/Debug")
 
 [node name="Overlays" type="Node" parent="."]
