@@ -1,26 +1,35 @@
 extends CharacterBody3D
 
 # Enums
-enum States { WALKING, SPRINTING, CROUCHING, AIR }
+enum States { WALKING, SPRINTING, CROUCHING, AIR, AIR_SPRINTING }
 var state = States.WALKING
-# Config
+
+# Movement
+@export_group("Movement Properties")
 @export var speed : float = 5.0 : set = set_speed
-@export var sprintSpeed : float = 8.0 : set = set_sprint_speed
+@export var sprintSpeed : float = 8.5 : set = set_sprint_speed
 @export var jumpVel : float = 4.5 : set = set_jump
+# Cam
+@export_group("Camera Properties")
 @export var sensitivity : float = 0.5 : set = set_sens
+@export var fov : float = 70 : set = set_fov
+@export var sprintFOV : float = 100 : set = set_sprint_fov
 # Nodes
+@export_group("Nodes")
 @export var headPivot : Node3D = null : set = set_head
 @export var cam : Camera3D = null : set = set_camera
+@export var debugMenu : Control = null : set = set_debug
 
 # Internal Vars
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var currentSpeed = speed
 
 func _physics_process(delta):
+	# Start calculations
 	calculateState()
 	
 	# Add gravity
-	if state == States.AIR:
+	if state == States.AIR or state == States.AIR_SPRINTING:
 		velocity.y -= gravity * delta
 
 	# Handle jump
@@ -28,10 +37,12 @@ func _physics_process(delta):
 		velocity.y = jumpVel
 	
 	# Calculate speed
-	if state == States.SPRINTING:
+	if state == States.SPRINTING or state == States.AIR_SPRINTING:
 		currentSpeed = sprintSpeed
-	elif state == States.WALKING:
+		Util.tweenVal(cam, "fov", sprintFOV, 0.25)
+	else:
 		currentSpeed = speed
+		Util.tweenVal(cam, "fov", fov, 0.25)
 
 	# Get input direction and handle movement/deceleration.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
@@ -45,7 +56,12 @@ func _physics_process(delta):
 
 	# Finish up
 	move_and_slide()
-
+	
+	# Debug
+	if (debugMenu):
+		debugMenu.set_player_coords(self.get_position())
+		debugMenu.set_player_state(Util.get_enum_val_as_string(States, state))
+		debugMenu.set_player_speed(Util.round_to_dec(self.velocity.length(), 2))
 
 func _unhandled_input(event):
 	# Hide mouse
@@ -73,7 +89,9 @@ func _unhandled_input(event):
 			cam.rotation.x = clamp(cam.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
 func calculateState():
-	if not is_on_floor():
+	if not is_on_floor() and Input.is_action_pressed("move_sprint"):
+		state = States.AIR_SPRINTING
+	elif not is_on_floor():
 		state = States.AIR
 	elif Input.is_action_pressed("move_sprint"):
 		state = States.SPRINTING
@@ -94,3 +112,9 @@ func set_head(newHead):
 	headPivot = newHead
 func set_camera(newCam):
 	cam = newCam
+func set_fov(newFOV):
+	fov = newFOV
+func set_sprint_fov(newSprintFOV):
+	sprintFOV = newSprintFOV
+func set_debug(newDebug):
+	debugMenu = newDebug

@@ -1,9 +1,10 @@
 extends Node
 
 # TODO: implement these
+var savedScene = load("res://scenes/levels/move_test.tscn")
 
 func _on_continue():
-  pass
+  get_tree().change_scene_to_packed(savedScene)
 
 func _on_new_game():
   pass

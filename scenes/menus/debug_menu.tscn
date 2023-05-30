@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cadid4ryi4wnx"]
+
+[ext_resource type="Script" path="res://scripts/menus/debug_menu.gd" id="2_ev0o2"]
+
+[node name="Debug" type="Control" node_paths=PackedStringArray("labelBox")]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("2_ev0o2")
+labelBox = NodePath("Labels")
+metadata/_edit_use_anchors_ = true
+
+[node name="Labels" type="VBoxContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = -8

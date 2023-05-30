@@ -9,9 +9,8 @@ points = PackedVector3Array(-0.125207, -0.532801, -0.480507, 0.0227831, 0.47607,
 
 [node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("headPivot", "cam")]
 script = ExtResource("1_msws7")
-sprintSpeed = 8.5
 headPivot = NodePath("Head")
-cam = NodePath("Head/Camera3D")
+cam = NodePath("Head/Camera")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.7, 0, 0, 0, 1, 0, 0, 0, 0.7, 0, 0, 0)
@@ -24,5 +23,5 @@ shape = SubResource("ConvexPolygonShape3D_plx1k")
 [node name="Head" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.529681, 0)
 
-[node name="Camera3D" type="Camera3D" parent="Head"]
+[node name="Camera" type="Camera3D" parent="Head"]
 current = true
