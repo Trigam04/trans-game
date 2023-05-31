@@ -110,7 +110,7 @@ func handleState():
 		MovementStates.SPRINTING:
 			currentSpeed = sprintSpeed
 			Util.tweenVal(cam, "fov", sprintFOV, 0.25)
-			Util.tweenVal(headPivot, "position", Vector3(0, 0.53, 0), 0.25)
+			Util.tweenVal(headPivot, "position", Vector3(0, 0.65, 0), 0.25)
 		MovementStates.CROUCHING:
 			currentSpeed = crouchSpeed
 			Util.tweenVal(cam, "fov", crouchFOV, 0.25)
