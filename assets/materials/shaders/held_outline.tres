@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dk1pwejxhs10x"]
+
+[ext_resource type="Shader" path="res://assets/shaders/held_outline.shader.gdshader" id="1_mx8m4"]
+
+[resource]
+render_priority = 127
+shader = ExtResource("1_mx8m4")
+shader_parameter/border_width = 0.05
+shader_parameter/color = Color(1, 1, 1, 1)
+shader_parameter/pattern = false
+shader_parameter/line_number = 0.0
+shader_parameter/line_sharpness = 0.0
+shader_parameter/pulse = false
+shader_parameter/pulse_speed = null
+shader_parameter/line_movement = null
+shader_parameter/line_movement_speed = null
+shader_parameter/wave = null

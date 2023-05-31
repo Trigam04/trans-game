@@ -32,6 +32,7 @@ var posState = PositionStates.GROUND
 @export var interactCast : RayCast3D = null : set = set_interact
 @export var hand : Marker3D = null : set = set_hand
 @export var debugMenu : Control = null : set = set_debug
+@export var outlineMaterial : ShaderMaterial = null : set = set_outline
 
 # Internal Vars
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -161,9 +162,14 @@ func pick_object():
 	if !pickedObj:
 		var collider = interactCast.get_collider()
 		if collider != null and collider is RigidBody3D:
-			print("Picked object!")
 			pickedObj = collider
+			var mesh = Util.get_child_of_type(pickedObj, GeometryInstance3D)
+			if mesh:
+				mesh.material_override.next_pass = outlineMaterial
 	else:
+		var mesh = Util.get_child_of_type(pickedObj, GeometryInstance3D)
+		if mesh:
+			mesh.material_override.next_pass = null
 		pickedObj = null
 
 
@@ -213,3 +219,5 @@ func set_interact(newInter):
 	interactCast = newInter
 func set_hand(newHand):
 	hand = newHand
+func set_outline(newOutline):
+	outlineMaterial = newOutline

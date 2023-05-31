@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4e14ffnshjd0"]
+[gd_scene load_steps=7 format=3 uid="uid://b4e14ffnshjd0"]
 
 [ext_resource type="Script" path="res://scripts/entities/player.gd" id="1_msws7"]
+[ext_resource type="Material" uid="uid://dk1pwejxhs10x" path="res://assets/materials/shaders/held_outline.tres" id="2_8od21"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jvvgs"]
 radius = 0.35
@@ -25,6 +26,7 @@ headPivot = NodePath("Head")
 cam = NodePath("Head/Camera")
 interactCast = NodePath("Head/Camera/InteractCast")
 hand = NodePath("Head/Camera/Hand")
+outlineMaterial = ExtResource("2_8od21")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_jvvgs")
