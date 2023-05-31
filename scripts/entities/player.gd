@@ -21,6 +21,7 @@ var posState = PositionStates.GROUND
 @export var crouchFOV : float = 60 : set = set_crouch_fov
 @export var crawlFOV : float = 50 : set = set_crawl_fov
 # Colliders
+@export_group("Colliders")
 @export var standingCollider : CollisionShape3D = null : set = set_stand_col
 @export var crouchingCollider : CollisionShape3D = null : set = set_crouch_col
 @export var crawlingCollider : CollisionShape3D = null : set = set_crawl_col
@@ -28,17 +29,32 @@ var posState = PositionStates.GROUND
 @export_group("Nodes")
 @export var headPivot : Node3D = null : set = set_head
 @export var cam : Camera3D = null : set = set_camera
+@export var interactCast : RayCast3D = null : set = set_interact
+@export var hand : Marker3D = null : set = set_hand
 @export var debugMenu : Control = null : set = set_debug
 
 # Internal Vars
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var currentSpeed = speed
+var pickedObj = null
+var pullPow = 15
 
 func _physics_process(delta):
 	# Start calculations
 	calculateState()
 	handleState()
 	
+	calculateMovement(delta)
+	
+	if pickedObj != null:
+		var from = pickedObj.global_transform.origin
+		var to = hand.global_transform.origin
+		pickedObj.linear_velocity = (to - from) * pullPow
+	
+	# Pass values to debug menu
+	if (debugMenu): passDebug()
+
+func calculateMovement(delta):
 	# Add gravity
 	if posState == PositionStates.AIR:
 		velocity.y -= gravity * delta
@@ -49,7 +65,7 @@ func _physics_process(delta):
 
 	# Get input direction and handle movement/deceleration.
 	var input_dir = Input.get_vector("move_left", "move_right", "move_forward", "move_backward")
-	var direction = (self.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	var direction = (headPivot.transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	if direction:
 		velocity.x = direction.x * currentSpeed
 		velocity.z = direction.z * currentSpeed
@@ -59,9 +75,10 @@ func _physics_process(delta):
 
 	# Finish up
 	move_and_slide()
-	
-	# Pass values to debug menu
-	if (debugMenu): passDebug()
+
+func _input(event):
+	if Input.is_action_just_pressed("gameplay_interact"):
+		pick_object()
 
 func _unhandled_input(event):
 	# Hide mouse
@@ -84,7 +101,7 @@ func _unhandled_input(event):
 	# Rotate head with mouse (bone cracking noises)
 	if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventMouseMotion:
-			self.rotate_y(-event.relative.x * sensitivity * 0.01)
+			headPivot.rotate_y(-event.relative.x * sensitivity * 0.01)
 			cam.rotate_x(-event.relative.y * sensitivity * 0.01)
 			cam.rotation.x = clamp(cam.rotation.x, deg_to_rad(-90), deg_to_rad(90))
 
@@ -140,6 +157,15 @@ func changeCollider(state):
 			crouchingCollider.disabled = true
 			crawlingCollider.disabled = true
 
+func pick_object():
+	if !pickedObj:
+		var collider = interactCast.get_collider()
+		if collider != null and collider is RigidBody3D:
+			print("Picked object!")
+			pickedObj = collider
+	else:
+		pickedObj = null
+
 
 
 func passDebug():
@@ -183,3 +209,7 @@ func set_crouch_col(newCol):
 	crouchingCollider = newCol
 func set_crawl_col(newCol):
 	crawlingCollider = newCol
+func set_interact(newInter):
+	interactCast = newInter
+func set_hand(newHand):
+	hand = newHand

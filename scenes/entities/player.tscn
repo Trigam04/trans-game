@@ -16,13 +16,15 @@ height = 1.25
 radius = 0.25
 height = 0.5
 
-[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("standingCollider", "crouchingCollider", "crawlingCollider", "headPivot", "cam")]
+[node name="Player" type="CharacterBody3D" node_paths=PackedStringArray("standingCollider", "crouchingCollider", "crawlingCollider", "headPivot", "cam", "interactCast", "hand")]
 script = ExtResource("1_msws7")
 standingCollider = NodePath("Collision [Standing]")
 crouchingCollider = NodePath("Collision [Crouching]")
 crawlingCollider = NodePath("Collision [Crawl]")
 headPivot = NodePath("Head")
 cam = NodePath("Head/Camera")
+interactCast = NodePath("Head/Camera/InteractCast")
+hand = NodePath("Head/Camera/Hand")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_jvvgs")
@@ -47,3 +49,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.65, 0)
 
 [node name="Camera" type="Camera3D" parent="Head"]
 current = true
+
+[node name="InteractCast" type="RayCast3D" parent="Head/Camera"]
+target_position = Vector3(0, 0, -3)
+
+[node name="Hand" type="Marker3D" parent="Head/Camera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
