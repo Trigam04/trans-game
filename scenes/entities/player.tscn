@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b4e14ffnshjd0"]
+[gd_scene load_steps=9 format=3 uid="uid://b4e14ffnshjd0"]
 
 [ext_resource type="Script" path="res://scripts/entities/player.gd" id="1_msws7"]
-[ext_resource type="Material" uid="uid://dk1pwejxhs10x" path="res://assets/materials/shaders/held_outline.tres" id="2_8od21"]
+[ext_resource type="Material" uid="uid://d4aejlvjbdpup" path="res://assets/materials/held_outline.tres" id="2_nx6jj"]
+[ext_resource type="Texture2D" uid="uid://jq80ak3am1ej" path="res://assets/textures/gui/crosshair.png" id="3_r3sv4"]
+[ext_resource type="PackedScene" path="res://scenes/menus/debug_menu.tscn" id="4_w8e57"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_jvvgs"]
 radius = 0.35
@@ -26,7 +28,7 @@ headPivot = NodePath("Head")
 cam = NodePath("Head/Camera")
 interactCast = NodePath("Head/Camera/InteractCast")
 hand = NodePath("Head/Camera/Hand")
-outlineMaterial = ExtResource("2_8od21")
+outlineMaterial = ExtResource("2_nx6jj")
 
 [node name="Mesh" type="MeshInstance3D" parent="."]
 mesh = SubResource("CapsuleMesh_jvvgs")
@@ -57,3 +59,28 @@ target_position = Vector3(0, 0, -3)
 
 [node name="Hand" type="Marker3D" parent="Head/Camera"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2.5)
+
+[node name="HUD" type="Node" parent="Head/Camera"]
+
+[node name="Overlay" type="Control" parent="Head/Camera/HUD"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="CenterContainer" type="CenterContainer" parent="Head/Camera/HUD/Overlay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Head/Camera/HUD/Overlay/CenterContainer"]
+layout_mode = 2
+texture = ExtResource("3_r3sv4")
+
+[node name="Debug" parent="Head/Camera/HUD/Overlay" instance=ExtResource("4_w8e57")]

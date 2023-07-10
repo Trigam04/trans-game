@@ -31,14 +31,15 @@ var posState = PositionStates.GROUND
 @export var cam : Camera3D = null : set = set_camera
 @export var interactCast : RayCast3D = null : set = set_interact
 @export var hand : Marker3D = null : set = set_hand
-@export var debugMenu : Control = null : set = set_debug
-@export var outlineMaterial : ShaderMaterial = null : set = set_outline
+@export var outlineMaterial : StandardMaterial3D = null : set = set_outline
 
 # Internal Vars
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var currentSpeed = speed
 var pickedObj = null
+var pickedMat = null
 var pullPow = 15
+@onready var debugMenu = $Head/Camera/HUD/Overlay/Debug
 
 func _physics_process(delta):
 	# Start calculations
@@ -163,13 +164,15 @@ func pick_object():
 		var collider = interactCast.get_collider()
 		if collider != null and collider is RigidBody3D:
 			pickedObj = collider
-			var mesh = Util.get_child_of_type(pickedObj, GeometryInstance3D)
-			if mesh:
-				mesh.material_override.next_pass = outlineMaterial
+			#var meshes = Util.get_children_of_type(pickedObj, GeometryInstance3D)
+			#if meshes.size():
+			#	for mesh in meshes:
+			#		pickedMat = mesh.material_overlay
+			#		mesh.material_overlay = outlineMaterial
 	else:
-		var mesh = Util.get_child_of_type(pickedObj, GeometryInstance3D)
-		if mesh:
-			mesh.material_override.next_pass = null
+		#var mesh = Util.get_child_of_type(pickedObj, GeometryInstance3D)
+		#if mesh:
+		#	mesh.material_overlay = pickedMat
 		pickedObj = null
 
 

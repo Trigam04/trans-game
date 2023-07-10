@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://pmmoul3s6npy"]
+[gd_scene load_steps=29 format=3 uid="uid://pmmoul3s6npy"]
 
 [ext_resource type="Material" uid="uid://ds7uf6amdd2q1" path="res://assets/materials/dark_grid_large_unmarked.tres" id="1_02e76"]
 [ext_resource type="PackedScene" uid="uid://b4e14ffnshjd0" path="res://scenes/entities/player.tscn" id="1_b34ff"]
@@ -7,8 +7,6 @@
 [ext_resource type="Material" uid="uid://b6ihdbtt5cho7" path="res://assets/materials/cyan_grid_medium_marked.tres" id="5_mbv8l"]
 [ext_resource type="PackedScene" uid="uid://cp2nvi8y0ucgx" path="res://scenes/objects/slope_2x.tscn" id="5_n018o"]
 [ext_resource type="Texture2D" uid="uid://cp34tktru5v82" path="res://assets/textures/Trigam's Prototype Pack/Orange/Grid/Medium Marked.png" id="6_iww7t"]
-[ext_resource type="PackedScene" path="res://scenes/menus/debug_menu.tscn" id="7_x2vjw"]
-[ext_resource type="Texture2D" uid="uid://jq80ak3am1ej" path="res://assets/textures/gui/crosshair.png" id="9_yulud"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lgkua"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -42,10 +40,21 @@ size = Vector3(1, 0.15, 1)
 albedo_texture = ExtResource("6_iww7t")
 uv1_offset = Vector3(0.5, 0.5, 0.5)
 uv1_triplanar = true
+grow_amount = 0.364
 
 [sub_resource type="BoxMesh" id="BoxMesh_jp02x"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_b53qt"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_mn4bc"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_pinum"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_d6rfb"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_2y3uy"]
+height = 0.5
+radius = 1.0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wgwia"]
 albedo_texture = ExtResource("6_iww7t")
@@ -129,7 +138,7 @@ shape = SubResource("BoxShape3D_p2wte")
 [node name="Cubes" type="Node" parent="Level/Objects"]
 
 [node name="Cube" type="RigidBody3D" parent="Level/Objects/Cubes"]
-transform = Transform3D(0.79653, 0, -0.604599, 0, 1, 0, 0.604599, 0, 0.79653, -12, 0.25, -12)
+transform = Transform3D(0.79653, 0, -0.604599, 0, 1, 0, 0.604599, 0, 0.79653, -6.18197, 1.6963, -11.3093)
 
 [node name="Mesh" type="MeshInstance3D" parent="Level/Objects/Cubes/Cube"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -141,8 +150,34 @@ skeleton = NodePath("../../..")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_b53qt")
 
+[node name="Cube5" type="RigidBody3D" parent="Level/Objects/Cubes"]
+transform = Transform3D(0.79653, 0, -0.604599, 0, 1, 0, 0.604599, 0, 0.79653, -5.62932, 2.59864, -10.56)
+
+[node name="Mesh" type="MeshInstance3D" parent="Level/Objects/Cubes/Cube5"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_6ui4n")
+mesh = SubResource("SphereMesh_mn4bc")
+skeleton = NodePath("../../..")
+
+[node name="Collider" type="CollisionShape3D" parent="Level/Objects/Cubes/Cube5"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("SphereShape3D_pinum")
+
+[node name="Cube6" type="RigidBody3D" parent="Level/Objects/Cubes"]
+transform = Transform3D(0.79653, 0, -0.604599, 0, 1, 0, 0.604599, 0, 0.79653, -6.13533, 2.66641, -9.55999)
+
+[node name="Mesh" type="MeshInstance3D" parent="Level/Objects/Cubes/Cube6"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_6ui4n")
+mesh = SubResource("TorusMesh_d6rfb")
+skeleton = NodePath("../../..")
+
+[node name="Collider" type="CollisionShape3D" parent="Level/Objects/Cubes/Cube6"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("CylinderShape3D_2y3uy")
+
 [node name="Cube2" type="RigidBody3D" parent="Level/Objects/Cubes"]
-transform = Transform3D(-0.371368, 0, 0.928486, 0, 1, 0, -0.928486, 0, -0.371368, -11.3821, 0.25, -12.25)
+transform = Transform3D(-0.371368, 0, 0.928486, 0, 1, 0, -0.928486, 0, -0.371368, -6.29794, 2.06012, -10.2708)
 
 [node name="Mesh" type="MeshInstance3D" parent="Level/Objects/Cubes/Cube2"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -155,7 +190,7 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_b53qt")
 
 [node name="Cube3" type="RigidBody3D" parent="Level/Objects/Cubes"]
-transform = Transform3D(0.907044, 0, 0.421036, 0, 1, 0, -0.421036, 0, 0.907044, -11.8338, 0.25, -12.7147)
+transform = Transform3D(0.907044, 0, 0.421036, 0, 1, 0, -0.421036, 0, 0.907044, -5.44126, 1.79586, -10.9473)
 
 [node name="Mesh" type="MeshInstance3D" parent="Level/Objects/Cubes/Cube3"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
@@ -168,7 +203,7 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_b53qt")
 
 [node name="Cube4" type="RigidBody3D" parent="Level/Objects/Cubes"]
-transform = Transform3D(0.265556, 0, 0.964095, 0, 1, 0, -0.964095, 0, 0.265556, -11.6836, 0.75, -12.3093)
+transform = Transform3D(0.265556, 0, 0.964095, 0, 1, 0, -0.964095, 0, 0.265556, -6.20164, 2.06478, -9.68318)
 
 [node name="Mesh" type="MeshInstance3D" parent="Level/Objects/Cubes/Cube4"]
 transform = Transform3D(0.5, 0, -1.49012e-08, 0, 0.5, 0, 1.49012e-08, 0, 0.5, 0, 0, 0)
@@ -180,27 +215,6 @@ skeleton = NodePath("../../..")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_b53qt")
 
-[node name="Player" parent="Level" node_paths=PackedStringArray("debugMenu") instance=ExtResource("1_b34ff")]
+[node name="Player" parent="Level" instance=ExtResource("1_b34ff")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 jumpVel = 5.0
-debugMenu = NodePath("../../Overlays/Debug")
-
-[node name="Overlays" type="Node" parent="."]
-
-[node name="Debug" parent="Overlays" instance=ExtResource("7_x2vjw")]
-
-[node name="HUD" type="Control" parent="Overlays" node_paths=PackedStringArray("shortcut_context")]
-layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-mouse_filter = 1
-shortcut_context = NodePath("")
-
-[node name="Crosshair" type="Sprite2D" parent="Overlays/HUD"]
-position = Vector2(576, 324)
-texture = ExtResource("9_yulud")
