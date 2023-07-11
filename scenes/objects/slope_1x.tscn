@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://dtknm5usy37vf"]
+[gd_scene load_steps=4 format=3 uid="uid://dtknm5usy37vf"]
 
 [ext_resource type="PackedScene" uid="uid://d2m8gml2l1osm" path="res://assets/models/objects/Slope_1x.glb" id="1_567yp"]
 [ext_resource type="Material" uid="uid://vq40n7b07ucl" path="res://assets/materials/red_grid_large_unmarked.tres" id="2_xo7gr"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ytr07"]
+points = PackedVector3Array(-1, -1, -1, -1, -1, 1, 1, -1, -1, 1, -1, 1, -1, 1, 1, -1, 1, -1)
 
 [node name="Slope_1x" instance=ExtResource("1_567yp")]
 
@@ -10,3 +13,6 @@ visible = false
 
 [node name="Slope_1x" parent="." index="1"]
 material_override = ExtResource("2_xo7gr")
+
+[node name="CollisionShape3D" parent="Slope_1x/StaticBody3D" index="0"]
+shape = SubResource("ConvexPolygonShape3D_ytr07")

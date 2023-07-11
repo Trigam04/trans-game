@@ -1,6 +1,7 @@
-[gd_scene load_steps=29 format=3 uid="uid://pmmoul3s6npy"]
+[gd_scene load_steps=30 format=3 uid="uid://pmmoul3s6npy"]
 
 [ext_resource type="Material" uid="uid://ds7uf6amdd2q1" path="res://assets/materials/dark_grid_large_unmarked.tres" id="1_02e76"]
+[ext_resource type="Material" uid="uid://c1b8chln682si" path="res://assets/materials/environment/skyboxes/sunset.tres" id="1_5hw62"]
 [ext_resource type="PackedScene" uid="uid://b4e14ffnshjd0" path="res://scenes/entities/player.tscn" id="1_b34ff"]
 [ext_resource type="PackedScene" uid="uid://dqiattesn3h3x" path="res://scenes/objects/slope_05x.tscn" id="2_4j3og"]
 [ext_resource type="PackedScene" uid="uid://dtknm5usy37vf" path="res://scenes/objects/slope_1x.tscn" id="5_1cep4"]
@@ -8,24 +9,25 @@
 [ext_resource type="PackedScene" uid="uid://cp2nvi8y0ucgx" path="res://scenes/objects/slope_2x.tscn" id="5_n018o"]
 [ext_resource type="Texture2D" uid="uid://cp34tktru5v82" path="res://assets/textures/Trigam's Prototype Pack/Orange/Grid/Medium Marked.png" id="6_iww7t"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_lgkua"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-
 [sub_resource type="Sky" id="Sky_eabga"]
-sky_material = SubResource("ProceduralSkyMaterial_lgkua")
+sky_material = ExtResource("1_5hw62")
 
 [sub_resource type="Environment" id="Environment_bidla"]
 background_mode = 2
 sky = SubResource("Sky_eabga")
+sky_rotation = Vector3(0, -0.610865, 0)
 tonemap_mode = 2
-glow_enabled = true
+tonemap_exposure = 1.5
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_u301x"]
+auto_exposure_enabled = true
+auto_exposure_min_sensitivity = 200.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_s2v8g"]
 size = Vector2(35, 35)
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_fqd7p"]
-data = PackedVector3Array(17.5, 0, 17.5, -17.5, 0, 17.5, 17.5, 0, -17.5, -17.5, 0, 17.5, -17.5, 0, -17.5, 17.5, 0, -17.5)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_57lrd"]
+points = PackedVector3Array(17.5, 0, 17.5, 17.5, 0, -17.5, -17.5, 0, 17.5, -17.5, 0, -17.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_t5tpb"]
 size = Vector3(1, 0.15, 1)
@@ -85,9 +87,14 @@ uv1_triplanar = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="Level/Environment"]
 environment = SubResource("Environment_bidla")
+camera_attributes = SubResource("CameraAttributesPractical_u301x")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Level/Environment"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 38.4953, 0)
+transform = Transform3D(0.819152, 0.573576, 2.50718e-08, 0, -4.37114e-08, 1, 0.573576, -0.819152, -3.58063e-08, 0, 38.4953, 0)
+shadow_enabled = true
+shadow_opacity = 0.75
+shadow_blur = 2.0
+directional_shadow_max_distance = 30.0
 
 [node name="Objects" type="Node" parent="Level"]
 
@@ -98,7 +105,7 @@ mesh = SubResource("PlaneMesh_s2v8g")
 [node name="StaticBody3D" type="StaticBody3D" parent="Level/Objects/Floor"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Objects/Floor/StaticBody3D"]
-shape = SubResource("ConcavePolygonShape3D_fqd7p")
+shape = SubResource("ConvexPolygonShape3D_57lrd")
 
 [node name="Slopes" type="Node" parent="Level/Objects"]
 
