@@ -11,26 +11,23 @@ config_version=5
 [application]
 
 config/name="Trans Game"
-run/main_scene="res://scenes/menus/main_menu.tscn"
+run/main_scene="res://scenes/menus/main_menu_old.tscn"
 config/features=PackedStringArray("4.1", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
 
 Util="*res://scripts/util.gd"
-Config="*res://scripts/config.gd"
+Config="*res://scripts/config/config.gd"
+GameConfig="*res://scripts/config/game_config.gd"
 
 [display]
 
-window/size/viewport_width=1080
-window/size/viewport_height=720
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=3
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
-
-[editor]
-
-version_control/plugin_name="GitPlugin"
-version_control/autoload_on_startup=true
 
 [editor_plugins]
 
@@ -96,5 +93,9 @@ gameplay_interact={
 
 [physics]
 
-3d/physics_engine="GodotPhysics3D"
 3d/default_gravity=14.0
+
+[rendering]
+
+lights_and_shadows/directional_shadow/16_bits=false
+occlusion_culling/use_occlusion_culling=true

@@ -1,7 +1,7 @@
 [gd_scene load_steps=30 format=3 uid="uid://pmmoul3s6npy"]
 
 [ext_resource type="Material" uid="uid://ds7uf6amdd2q1" path="res://assets/materials/dark_grid_large_unmarked.tres" id="1_02e76"]
-[ext_resource type="Material" uid="uid://c1b8chln682si" path="res://assets/materials/environment/skyboxes/sunset.tres" id="1_5hw62"]
+[ext_resource type="Material" uid="uid://cp1olv743xejx" path="res://assets/materials/environment/skyboxes/pink_sunset.tres" id="1_812r4"]
 [ext_resource type="PackedScene" uid="uid://b4e14ffnshjd0" path="res://scenes/entities/player.tscn" id="1_b34ff"]
 [ext_resource type="PackedScene" uid="uid://dqiattesn3h3x" path="res://scenes/objects/slope_05x.tscn" id="2_4j3og"]
 [ext_resource type="PackedScene" uid="uid://dtknm5usy37vf" path="res://scenes/objects/slope_1x.tscn" id="5_1cep4"]
@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://cp34tktru5v82" path="res://assets/textures/Trigam's Prototype Pack/Orange/Grid/Medium Marked.png" id="6_iww7t"]
 
 [sub_resource type="Sky" id="Sky_eabga"]
-sky_material = ExtResource("1_5hw62")
+sky_material = ExtResource("1_812r4")
 
 [sub_resource type="Environment" id="Environment_bidla"]
 background_mode = 2
@@ -20,7 +20,6 @@ tonemap_mode = 2
 tonemap_exposure = 1.5
 
 [sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_u301x"]
-auto_exposure_enabled = true
 auto_exposure_min_sensitivity = 200.0
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_s2v8g"]
@@ -85,16 +84,15 @@ uv1_triplanar = true
 
 [node name="Environment" type="Node" parent="Level"]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="Level/Environment"]
+[node name="World" type="WorldEnvironment" parent="Level/Environment"]
 environment = SubResource("Environment_bidla")
 camera_attributes = SubResource("CameraAttributesPractical_u301x")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Level/Environment"]
-transform = Transform3D(0.819152, 0.573576, 2.50718e-08, 0, -4.37114e-08, 1, 0.573576, -0.819152, -3.58063e-08, 0, 38.4953, 0)
+[node name="Lights" type="Node" parent="Level/Environment"]
+
+[node name="Sun" type="DirectionalLight3D" parent="Level/Environment/Lights"]
+transform = Transform3D(0.819152, 0.148453, -0.554032, 0, 0.965926, 0.258819, 0.573576, -0.212012, 0.79124, 0, 38.4953, 0)
 shadow_enabled = true
-shadow_opacity = 0.75
-shadow_blur = 2.0
-directional_shadow_max_distance = 30.0
 
 [node name="Objects" type="Node" parent="Level"]
 
@@ -157,6 +155,19 @@ skeleton = NodePath("../../..")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_b53qt")
 
+[node name="Cube7" type="RigidBody3D" parent="Level/Objects/Cubes"]
+transform = Transform3D(0.993944, 0, 0.109891, 0, 1, 0, -0.109891, 0, 0.993944, -6.182, 0.25, -11.309)
+
+[node name="Mesh" type="MeshInstance3D" parent="Level/Objects/Cubes/Cube7"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_6ui4n")
+mesh = SubResource("BoxMesh_jp02x")
+skeleton = NodePath("../../..")
+
+[node name="Collider" type="CollisionShape3D" parent="Level/Objects/Cubes/Cube7"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_b53qt")
+
 [node name="Cube5" type="RigidBody3D" parent="Level/Objects/Cubes"]
 transform = Transform3D(0.79653, 0, -0.604599, 0, 1, 0, 0.604599, 0, 0.79653, -5.62932, 2.59864, -10.56)
 
@@ -210,7 +221,7 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_b53qt")
 
 [node name="Cube4" type="RigidBody3D" parent="Level/Objects/Cubes"]
-transform = Transform3D(0.265556, 0, 0.964095, 0, 1, 0, -0.964095, 0, 0.265556, -6.20164, 2.06478, -9.68318)
+transform = Transform3D(0.265556, 0, 0.964095, 0, 1, 0, -0.964095, 0, 0.265556, -6.20164, 2.06478, -9.49836)
 
 [node name="Mesh" type="MeshInstance3D" parent="Level/Objects/Cubes/Cube4"]
 transform = Transform3D(0.5, 0, -1.49012e-08, 0, 0.5, 0, 1.49012e-08, 0, 0.5, 0, 0, 0)

@@ -1,0 +1,6 @@
+[gd_resource type="PanoramaSkyMaterial" load_steps=2 format=3 uid="uid://cp1olv743xejx"]
+
+[ext_resource type="Texture2D" uid="uid://chldjh8qqmjf7" path="res://assets/textures/environment/skyboxes/AllSkyFree_Sky_EpicGloriousPink_Equirect.png" id="1_tov0a"]
+
+[resource]
+panorama = ExtResource("1_tov0a")

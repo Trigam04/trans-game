@@ -1,0 +1,217 @@
+[gd_scene load_steps=12 format=3 uid="uid://cch6vf5mqi31j"]
+
+[ext_resource type="Theme" uid="uid://c2ic0tvyep4ni" path="res://assets/themes/MainMenuTheme.tres" id="1_k42gd"]
+[ext_resource type="Script" path="res://scripts/ui/mainmenu.gd" id="2_np7on"]
+[ext_resource type="PackedScene" uid="uid://ccrn2uabm3pmy" path="res://scenes/menus/options_menu.tscn" id="3_ny7yg"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5sjeu"]
+
+[sub_resource type="Gradient" id="Gradient_gkwcj"]
+colors = PackedColorArray(0.206747, 0.0733901, 0.132972, 1, 0.272765, 0.207733, 0.364218, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_37awr"]
+gradient = SubResource("Gradient_gkwcj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_45wjh"]
+texture = SubResource("GradientTexture1D_37awr")
+
+[sub_resource type="FontVariation" id="FontVariation_p53h6"]
+
+[sub_resource type="Animation" id="Animation_6eaj5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/MarginContainer/TitleContainer/TitleContainer2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-156.5, -35)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel/MarginContainer/ButtonContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel/MarginContainer/ButtonContainer:theme_override_constants/separation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_m82ne"]
+resource_name = "ui_mainmenu_appear"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Panel/MarginContainer/TitleContainer/TitleContainer2D:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.6, 2.3),
+"transitions": PackedFloat32Array(0.287174, 1),
+"update": 0,
+"values": [Vector2(-156.5, -200), Vector2(-156.5, -35)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Panel/MarginContainer/ButtonContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6, 1.5, 2.3),
+"transitions": PackedFloat32Array(1, 0.63728, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Panel/MarginContainer/ButtonContainer:theme_override_constants/separation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1.5, 1.7),
+"transitions": PackedFloat32Array(0.210224, 1),
+"update": 0,
+"values": [16, 8]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(0.31864, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7an72"]
+_data = {
+"RESET": SubResource("Animation_6eaj5"),
+"ui_mainmenu_appear": SubResource("Animation_m82ne")
+}
+
+[node name="MainMenu" type="Control"]
+material = SubResource("ShaderMaterial_5sjeu")
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 3
+theme = ExtResource("1_k42gd")
+script = ExtResource("2_np7on")
+options_scene = ExtResource("3_ny7yg")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_45wjh")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 64
+theme_override_constants/margin_bottom = 64
+
+[node name="TitleContainer" type="Control" parent="Panel/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="TitleContainer2D" type="Node2D" parent="Panel/MarginContainer/TitleContainer"]
+position = Vector2(-156.5, -35)
+
+[node name="Label" type="Label" parent="Panel/MarginContainer/TitleContainer/TitleContainer2D"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -129.5
+offset_right = 442.5
+offset_bottom = 70.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = SubResource("FontVariation_p53h6")
+theme_override_font_sizes/font_size = 48
+text = "TEMPORARY GAME TITLE"
+
+[node name="ButtonContainer" type="VBoxContainer" parent="Panel/MarginContainer"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+theme_override_constants/separation = 8
+
+[node name="ContinueButton" type="Button" parent="Panel/MarginContainer/ButtonContainer"]
+layout_mode = 2
+text = "Continue"
+
+[node name="NewGameButton" type="Button" parent="Panel/MarginContainer/ButtonContainer"]
+layout_mode = 2
+text = "New Game"
+
+[node name="OptionsButton" type="Button" parent="Panel/MarginContainer/ButtonContainer"]
+layout_mode = 2
+text = "Options"
+
+[node name="QuitButton" type="Button" parent="Panel/MarginContainer/ButtonContainer"]
+layout_mode = 2
+text = "Quit"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "ui_mainmenu_appear"
+libraries = {
+"": SubResource("AnimationLibrary_7an72")
+}
+
+[connection signal="pressed" from="Panel/MarginContainer/ButtonContainer/ContinueButton" to="." method="_on_continue"]
+[connection signal="pressed" from="Panel/MarginContainer/ButtonContainer/NewGameButton" to="." method="_on_new_game"]
+[connection signal="pressed" from="Panel/MarginContainer/ButtonContainer/OptionsButton" to="." method="_on_options"]
+[connection signal="pressed" from="Panel/MarginContainer/ButtonContainer/QuitButton" to="." method="_on_quit"]
